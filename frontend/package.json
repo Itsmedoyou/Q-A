@@ -1,0 +1,16 @@
+{
+  "name": "qa-dashboard-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 5000 -H 0.0.0.0",
+    "build": "next build",
+    "start": "next start -p 5000 -H 0.0.0.0"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.5",
+    "next": "^14.2.33",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
