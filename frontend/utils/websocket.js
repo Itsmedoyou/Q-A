@@ -7,10 +7,22 @@ class WebSocketManager {
   }
 
   getWsUrl() {
-    if (typeof window === 'undefined') return 'ws://localhost:8000/ws/questions';
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    return `${protocol}//${window.location.host.split(':')[0]}:8000/ws/questions`;
+    if (typeof window === 'undefined') {
+      return 'ws://localhost:8000/ws/questions';
+    }
+
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const host = window.location.host;
+
+    // For localhost/dev: connect directly to port 8000
+    if (host.includes('localhost') || host.includes('127.0.0.1')) {
+      return `${protocol}://localhost:8000/ws/questions`;
+    }
+
+    // For production: use same host (Next.js rewrites will handle it)
+    return `${protocol}://${window.location.hostname}/api/ws/questions`;
   }
+
 
   connect() {
     if (this.socket?.readyState === WebSocket.OPEN) return;

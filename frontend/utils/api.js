@@ -1,14 +1,22 @@
 export function getApiUrl() {
-  if (typeof window === 'undefined') return 'http://localhost:8000';
-  
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+
+  if (typeof window === 'undefined') {
+    return 'http://localhost:8000';
+  }
+
   const host = window.location.host;
-  
   if (host.includes('localhost') || host.includes('127.0.0.1')) {
     return 'http://localhost:8000';
   }
-  
+
+
+  console.warn("⚠ NEXT_PUBLIC_API_URL is NOT set. Using '/api' fallback.");
   return '/api';
 }
+
 
 export function xhrRequest(method, url, data = null, token = undefined) {
   return new Promise((resolve, reject) => {

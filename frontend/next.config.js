@@ -1,30 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
   async rewrites() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
     return [
       {
-        source: '/api/auth/:path*',
-        destination: 'http://localhost:8000/auth/:path*',
-      },
-      {
-        source: '/api/questions/:path*',
-        destination: 'http://localhost:8000/questions/:path*',
+        source: '/api/ws/:path*',
+        destination: `${apiUrl}/ws/:path*`,
       },
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8000/:path*',
-      },
+        destination: `${apiUrl}/:path*`,
+      }
     ];
   },
-  allowedDevOrigins: [
-    'localhost',
-    'localhost:5000',
-    '127.0.0.1',
-    '127.0.0.1:5000',
-    '0.0.0.0',
-    '0.0.0.0:5000',
-  ],
+
   async headers() {
     return [
       {
@@ -38,9 +30,10 @@ const nextConfig = {
       },
     ];
   },
+
   experimental: {
     serverActions: {
-      allowedOrigins: ['localhost:5000', '127.0.0.1:5000'],
+      allowedOrigins: ['*'],
     },
   },
 };
